@@ -15,4 +15,5 @@ public interface AgentAuditRepo extends JpaRepository<AgentAuditEntity, Long> {
     AgentAuditEntity findByAgent(AgentEntity agent);
 
     void update(AgentAuditEntity audit);
+
 }

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
     <link href="CSS/styles.css" rel="stylesheet"/>
 
+
     <style>
         body {
             background-image: url('images/background.jpg');

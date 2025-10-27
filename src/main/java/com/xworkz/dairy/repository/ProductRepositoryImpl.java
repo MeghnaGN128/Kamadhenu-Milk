@@ -19,7 +19,6 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Autowired
     private EntityManagerFactory emf;
 
-
     @Override
     public ProductEntity save(ProductEntity entity) {
         EntityManager em = null;

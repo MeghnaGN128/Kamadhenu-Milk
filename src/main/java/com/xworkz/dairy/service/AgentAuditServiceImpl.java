@@ -21,7 +21,6 @@ public class AgentAuditServiceImpl implements AgentAuditService {
             if (agent == null) {
                 throw new IllegalArgumentException("Agent cannot be null");
             }
-            
             AgentAuditEntity audit = new AgentAuditEntity();
             audit.setAgent(agent);
             audit.setAgentName(agent.getFirstName() + " " + agent.getLastName());

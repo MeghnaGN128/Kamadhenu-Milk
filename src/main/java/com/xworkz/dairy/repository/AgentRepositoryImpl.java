@@ -79,6 +79,7 @@ public class AgentRepositoryImpl implements AgentRepository {
             return false;
         } finally {
             if (em != null) em.close();
+
         }
     }
 

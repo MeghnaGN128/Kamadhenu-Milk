@@ -7,3 +7,5 @@ public interface AgentAuditService {
     void logAgentAction(AgentEntity agent, String action, String performedBy);
     AgentAuditEntity getLastAgentAudit(AgentEntity agent);
 }
+
+

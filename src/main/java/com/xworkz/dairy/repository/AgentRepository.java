@@ -29,4 +29,5 @@ public interface AgentRepository {
     long countByStatus(boolean active);
 
     long countAgentsBySearch(String keyword);
+
 }

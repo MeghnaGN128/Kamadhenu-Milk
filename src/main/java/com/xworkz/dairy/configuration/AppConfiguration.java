@@ -25,7 +25,7 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.xworkz.dairy")
-public class AppConfiguration implements WebMvcConfigurer {
+public class  AppConfiguration implements WebMvcConfigurer {
 
 
     @Autowired

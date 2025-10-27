@@ -6,6 +6,7 @@ import com.xworkz.dairy.dto.ProductDTO;
 import java.util.List;
 
 public interface ProductService {
+
     void saveProduct(ProductDTO productDTO, String adminName);
 
     List<ProductDTO> getAllProducts();

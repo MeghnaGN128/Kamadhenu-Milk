@@ -12,4 +12,5 @@ public interface AdminAuditRepository {
     Optional<AdminAuditEntity> findByAdminId(Integer adminId);
 
     void saveOrUpdate(AdminAuditEntity audit);
+
 }

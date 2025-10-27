@@ -10,6 +10,7 @@
     <!-- External CSS -->
     <link href="CSS/styles.css" rel="stylesheet"/>
 
+
     <style>
         body {
             background-image: url('images/background.jpg');

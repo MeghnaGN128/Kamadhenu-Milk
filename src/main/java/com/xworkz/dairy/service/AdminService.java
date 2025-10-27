@@ -24,5 +24,4 @@ public interface AdminService {
     boolean mobileNumberExists(String mobileNumber);
 
     AdminDTO findByEmail(String email);
-
 }

@@ -38,3 +38,4 @@ public class EmailConfiguration {
         return javaMailSender;
     }
 }
+

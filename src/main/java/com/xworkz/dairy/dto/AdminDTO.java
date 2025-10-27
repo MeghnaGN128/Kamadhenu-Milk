@@ -31,5 +31,4 @@ public class AdminDTO {
 
    // @NotBlank(message = "Confirm password cannot be blank")
     private String confirmPassword;
-
 }

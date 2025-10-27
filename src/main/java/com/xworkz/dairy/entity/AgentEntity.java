@@ -56,4 +56,5 @@ public class AgentEntity {
 
     @Column(name = "updated_date")
     private java.time.LocalDateTime updatedDate;
+
 }

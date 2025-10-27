@@ -49,5 +49,4 @@ public class ProductEntity {
 
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
-
 }

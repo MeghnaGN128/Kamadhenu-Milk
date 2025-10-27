@@ -20,7 +20,6 @@ public class AdminRestController {
     @Autowired
     AdminService adminService;
 
-
     @PostMapping("/api/admindetails")
     public ResponseEntity<String> saveAdminDetails(@Valid @RequestBody AdminDTO adminDTO,
                                                    BindingResult bindingResult) {

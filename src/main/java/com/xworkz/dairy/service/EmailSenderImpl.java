@@ -11,7 +11,6 @@ public class EmailSenderImpl implements EmailSender {
     @Autowired
     private EmailConfiguration config;
 
-
     @Override
     public boolean mailSend(String email, String otp) {
         try {

@@ -49,5 +49,4 @@ public class AgentAuditEntity {
         }
         updatedOn = LocalDateTime.now();
     }
-
 }

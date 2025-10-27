@@ -10,6 +10,7 @@ public interface AdminRepository {
     void update(AdminEntity adminEntity);
 
     AdminEntity findByResetToken(String token);
+
 }
 
 

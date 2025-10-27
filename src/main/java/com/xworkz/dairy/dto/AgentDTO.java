@@ -15,4 +15,5 @@ public class AgentDTO {
     private String phoneNumber;
     private String address;
     private String typesOfMilk;
+
 }

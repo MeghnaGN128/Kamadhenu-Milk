@@ -103,6 +103,7 @@ public class AdminAuditRepositoryImpl implements AdminAuditRepository {
             throw e;
         } finally {
             if (manager != null) manager.close();
+
         }
     }
 }

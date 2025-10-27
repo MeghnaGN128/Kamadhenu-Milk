@@ -37,4 +37,5 @@ public class AdminAuditEntity {
 
     @Column(name = "action")
     private String action; // e.g. LOGIN, LOGOUT, SAVE
+
 }

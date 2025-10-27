@@ -191,4 +191,5 @@ public class ProductController {
         model.addAttribute("productTypes", productTypes);
         return "productDashboard";
     }
+
 }

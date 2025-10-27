@@ -33,4 +33,5 @@ public class AppInitialization extends AbstractAnnotationConfigDispatcherServlet
                         maxUploadSizeInMb, maxUploadSizeInMb * 2, maxUploadSizeInMb / 2);
         registration.setMultipartConfig(multipartConfigElement);
     }
+
 }

@@ -25,7 +25,6 @@ public interface ProductRepository {
 
     long countByStatus(boolean active);
 
-
     long countProductsBySearch(String keyword);
 
     void delete(ProductEntity entity);

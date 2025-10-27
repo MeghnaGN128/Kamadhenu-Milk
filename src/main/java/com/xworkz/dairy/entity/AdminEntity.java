@@ -51,5 +51,4 @@ public class AdminEntity {
 
     @Column(name = "reset_token_expiry")
     private LocalDateTime resetTokenExpiry;
-
 }

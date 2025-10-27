@@ -7,6 +7,7 @@
         </encoder>
     </appender>
 
+
     <!-- File Appender -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>C:/logback/project.log</file>

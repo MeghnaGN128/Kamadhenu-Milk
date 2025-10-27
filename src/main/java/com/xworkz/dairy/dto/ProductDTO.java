@@ -36,5 +36,4 @@ public class ProductDTO {
     private Boolean active = true;
 
     private String productType;
-
     }

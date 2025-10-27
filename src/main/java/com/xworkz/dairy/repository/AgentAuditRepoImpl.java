@@ -229,5 +229,6 @@ public class AgentAuditRepoImpl implements AgentAuditRepo {
     @Override
     public <S extends AgentAuditEntity, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         return null;
+
     }
 }
