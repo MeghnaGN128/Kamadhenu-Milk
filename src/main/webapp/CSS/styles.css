@@ -1,0 +1,50 @@
+/* Logo badge */
+.logo-badge {
+    background: #fff;
+    border-radius: 50%;
+    padding: 8px;
+    display: inline-block;
+}
+
+/* Navbar - light yellow header */
+.custom-navbar {
+    background-color: #fff9c4 !important; /* Light yellow */
+}
+
+.custom-navbar .navbar-brand,
+.custom-navbar .nav-link,
+.custom-navbar .navbar-toggler {
+    color: #5a3e1b !important; /* Dark brown text for contrast */
+}
+
+.custom-navbar .nav-link.active,
+.custom-navbar .nav-link:focus,
+.custom-navbar .nav-link:hover {
+    color: #f57f17 !important; /* Slightly darker yellow/orange on hover */
+    font-weight: bold;
+}
+
+/* Toggler icon */
+.custom-navbar .navbar-toggler-icon {
+    filter: invert(0.6); /* Adjust to make toggler visible on light yellow */
+}
+
+/* Fixed social icons at bottom right */
+.social-icons {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons i {
+    font-size: 32px;
+    color: #5a3e1b; /* Dark brown icons on footer */
+    transition: color 0.3s;
+}
+
+.social-icons i:hover {
+    color: #f57f17; /* Slightly lighter on hover */
+}
+
