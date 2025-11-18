@@ -34,4 +34,15 @@ public interface ProductService {
     // Pagination methods
     long getTotalProductCount();
     List<ProductDTO> getProductsPaginated(int offset, int pageSize);
+
+
+    boolean checkProductExists(String productName);
+
+    List<String> productListForBuyer();
+
+    Double getProductPrice(String productType);
+
+    Boolean checkProductExistsByName(String productName);
+
+    List<String> getMilkTypes();
 }

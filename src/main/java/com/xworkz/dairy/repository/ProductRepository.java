@@ -34,4 +34,9 @@ public interface ProductRepository {
     @Query(value = "SELECT * FROM product_entity WHERE is_active = true ORDER BY product_id LIMIT :limit OFFSET :offset",
            nativeQuery = true)
     List<ProductEntity> findPaginated(@Param("offset") int offset, @Param("limit") int limit);
+
+
+    ProductEntity findByProductName(String productName);
+
+    List<String> findDistinctActiveProductNames();
 }

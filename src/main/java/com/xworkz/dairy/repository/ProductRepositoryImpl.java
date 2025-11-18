@@ -253,4 +253,54 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
     }
 
+    @Override
+    public ProductEntity findByProductName(String name) {
+
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+
+            em = emf.createEntityManager();
+            return em.createNamedQuery("findByProductName",ProductEntity.class)
+                    .setParameter("productName", name)
+                    .getSingleResult();
+
+
+
+        } catch (Exception e) {
+          //  log.error("Error finding product with ID {}", e);
+            return null;
+        } finally {
+            if (em != null) em.close();
+        }
+
+    }
+
+    public List<String> findDistinctActiveProductNames() {
+
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+
+            return em.createQuery(
+                            "SELECT DISTINCT p.productName FROM ProductEntity p WHERE p.active = true " +
+                                    "AND p.productType = 'Buy' " +
+                                    "AND p.productName LIKE '%Milk%' " ,
+                            String.class)
+                    .getResultList();
+
+
+        } catch (Exception e) {
+            //  log.error("Error finding product with ID {}", e);
+            return null;
+        } finally {
+            if (em != null) em.close();
+        }
+
+
+
+
+
+    }
+
 }

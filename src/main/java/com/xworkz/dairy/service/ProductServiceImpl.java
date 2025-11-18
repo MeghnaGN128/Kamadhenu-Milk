@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -215,5 +216,61 @@ public class ProductServiceImpl implements ProductService {
             log.error("Error fetching paginated products: {}", e.getMessage(), e);
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public boolean checkProductExists(String productName) {
+        log.info("Checking if product with name '{}' exists", productName);
+        List<ProductEntity> entities = productRepository.findAll();
+        return entities.stream()
+                .anyMatch(entity -> entity.getProductName() != null && entity.getProductName().equalsIgnoreCase(productName));
+    }
+
+    @Override
+    public List<String> productListForBuyer() {
+        log.info("Fetching product list for buyer");
+        List<ProductEntity> entities = productRepository.findAll();
+        List<String> productNames = new ArrayList<>();
+        entities.forEach(entity ->{
+            ProductDTO dto = new ProductDTO();
+            BeanUtils.copyProperties(entity, dto);
+            if(dto.getProductType().equalsIgnoreCase("buy")){
+                productNames.add(entity.getProductName());
+            }
+        });
+        return productNames;
+    }
+
+    @Override
+    public Double getProductPrice(String productType) {
+        log.info("Fetching product price for product type: {}", productType);
+        List<ProductEntity> entities = productRepository.findAll();
+        Double price=entities.stream()
+                .filter(entity -> entity.getProductType() != null && entity.getProductType().equalsIgnoreCase(productType))
+                .findFirst()
+                .map(entity -> entity.getProductPrice())
+                .orElse(null);
+        return price;
+    }
+
+    @Override
+    public Boolean checkProductExistsByName(String productName) {
+        log.info("Checking if product with name '{}' exists", productName);
+        ProductEntity entities = productRepository.findByProductName(productName);
+        log.info("Product with name '{}' exists: {}", entities);
+        if (entities != null) {
+            return true;
+        }
+        return null;
+    }
+
+    public List<String> getMilkTypes() {
+        List<String> names = productRepository.findDistinctActiveProductNames();
+        // defensive: remove nulls/trim
+        return names.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .distinct()
+                .collect(Collectors.toList());
     }
 }
