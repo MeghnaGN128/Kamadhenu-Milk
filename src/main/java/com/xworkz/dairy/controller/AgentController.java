@@ -3,6 +3,7 @@ package com.xworkz.dairy.controller;
 import com.xworkz.dairy.dto.AdminDTO;
 import com.xworkz.dairy.dto.AgentDTO;
 import com.xworkz.dairy.service.AgentService;
+import com.xworkz.dairy.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,36 @@ public class AgentController {
     @Autowired
     private AgentService agentService;
 
+    @Autowired
+    private ProductService productService;
+
     @GetMapping("agentdashboard")
+    public String adminDashboard(HttpSession session, Model model,
+                                 @RequestParam(required = false) String search) {
+
+        AdminDTO admin = (AdminDTO) session.getAttribute("adminDTO");
+        if (admin == null) {
+            return "redirect:/adminLogin";
+        }
+
+        List<AgentDTO> agentsList;
+        if (search != null && !search.trim().isEmpty()) {
+            agentsList = agentService.searchAgents(search.trim());
+            model.addAttribute("search", search);
+        } else {
+            agentsList = agentService.getAllAgents();
+        }
+        model.addAttribute("agentsList", agentsList);
+        model.addAttribute("agentsCount", agentService.getAgentCount());
+
+        // <-- ADD: milk types fetched from products table
+        List<String> milkTypes = productService.getMilkTypes();
+        model.addAttribute("milkTypes", milkTypes);
+
+        return "agentdashboard";
+    }
+
+  /*  @GetMapping("agentdashboard")
     public String adminDashboard(HttpSession session, Model model,
                                 @RequestParam(required = false) String search) {
         AdminDTO admin = (AdminDTO) session.getAttribute("adminDTO");
@@ -50,7 +80,7 @@ public class AgentController {
         // model.addAttribute("customersCount", customerService.getCustomerCount());
 
         return "agentdashboard";
-    }
+    }*/
 
     @PostMapping("addAgent")
     public String saveAgent(@ModelAttribute AgentDTO agentDTO, HttpSession session, RedirectAttributes redirectAttributes) {

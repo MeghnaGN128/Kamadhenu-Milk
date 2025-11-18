@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page isELIgnored="false" %>
 <html lang="en" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
@@ -11,7 +12,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="CSS/styles.css"/>
-
 
     <style>
         :root {
@@ -160,6 +160,7 @@
         }
     </style>
 </head>
+
 <body>
 <!-- Offcanvas Sidebar (Mobile) -->
 <div class="offcanvas offcanvas-start offcanvas-yellow" tabindex="-1" id="mobileSidebar">
@@ -180,13 +181,12 @@
 
 <div class="main-wrapper">
     <!-- Navbar -->
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg custom-navbar">
         <div class="container">
             <a class="navbar-brand fw-bold" href="#">
-            <span class="logo-badge">
-                <img src="images/logo.jpg" alt="Kamadhenu Logo" style="height:50px;"/>
-            </span>
+                <span class="logo-badge">
+                    <img src="images/logo.jpg" alt="Kamadhenu Logo" style="height:50px;"/>
+                </span>
                 Kamadhenu Milk
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
@@ -200,6 +200,7 @@
                             <i class="bi bi-house-door me-1"></i>Home
                         </a>
                     </div>
+
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="adminDropdown"
                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -208,6 +209,7 @@
                                  style="height:32px;width:32px;object-fit:cover;">
                             <span>${sessionScope.adminDTO != null ? sessionScope.adminDTO.adminName : 'Admin'}</span>
                         </a>
+
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown" style="min-width:260px;">
                             <li class="dropdown-item text-center">
                                 <img src="images/adminprofile.jpg" class="rounded-circle mb-2 border"
@@ -235,10 +237,9 @@
                                     <i class="bi bi-box-arrow-right"></i> Logout
                                 </a>
                             </li>
-
-
                         </ul>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -261,26 +262,28 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3>Products Dashboard</h3>
 
-        <%
-        Integer visitCount = (Integer) session.getAttribute("visitCount");
-        if (visitCount == null) {
-        visitCount = 1;
-        } else {
-        visitCount++;
-        }
-        session.setAttribute("visitCount", visitCount);
-        %>
+            <%
+            Integer visitCount = (Integer) session.getAttribute("visitCount");
+            if (visitCount == null) {
+            visitCount = 1;
+            } else {
+            visitCount++;
+            }
+            session.setAttribute("visitCount", visitCount);
+            %>
 
-        <!-- Page Visits Badge - Light Color -->
-        <div class="d-flex justify-content-end my-2">
-    <span class="badge text-dark fs-6 px-3 py-2 shadow-sm" style="background-color: #f8d7da;">
-        <i class="bi bi-eye-fill me-1"></i> Page visits: <strong><%= visitCount %></strong>
-    </span>
-        </div>
+            <!-- Page Visits Badge - Light Color -->
+            <div class="d-flex justify-content-end my-2">
+                <span class="badge text-dark fs-6 px-3 py-2 shadow-sm" style="background-color: #f8d7da;">
+                    <i class="bi bi-eye-fill me-1"></i> Page visits: <strong><%= visitCount %></strong>
+                </span>
+            </div>
+
             <div class="d-flex gap-2">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">Add New Product</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">Add New Product</button>
+            </div>
         </div>
-        </div>
+
         <c:if test="${not empty successMessage}">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 ${successMessage}
@@ -319,7 +322,7 @@
                                 <h5 class="mb-2">${product.productName}</h5>
                                 <p class="mb-1">
                                     <strong>Type: </strong>
-                                    <span class="badge ${product.productType == 'SELL' ? 'bg-success' : 'bg-info'}">
+                                    <span class="badge ${product.productType == 'SELL' ? 'bg-success' : 'bg-danger'}">
                                         ${not empty product.productType ? product.productType : 'N/A'}
                                     </span>
                                 </p>
@@ -386,10 +389,14 @@
                         </div>
                         <div class="modal-body">
                             <input type="hidden" id="productId" name="productId"/>
+
                             <div class="mb-3">
                                 <label for="productName" class="form-label">Product Name</label>
                                 <input type="text" class="form-control" id="productName" name="productName" required/>
+                                <!-- duplicate name error placeholder -->
+                                <span id="productNameError" class="text-danger small"></span>
                             </div>
+
                             <div class="mb-3">
                                 <label class="form-label d-block">Product Type</label>
                                 <div class="form-check form-check-inline">
@@ -401,10 +408,13 @@
                                     <label class="form-check-label" for="buyOption">Buy</label>
                                 </div>
                             </div>
+
                             <div class="mb-3">
                                 <label for="productPrice" class="form-label">Price</label>
                                 <input type="number" step="0.01" class="form-control" id="productPrice" name="productPrice" required/>
+                                <span id="priceError" class="text-danger small"></span>
                             </div>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -426,6 +436,7 @@
                 <h5 class="text-uppercase fw-bold mb-3">Kamadhenu Milk Products</h5>
                 <p>Bringing you fresh milk, curd, ghee, paneer and more from trusted farmers. Natural goodness with every drop.</p>
             </div>
+
             <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                 <h6 class="text-uppercase fw-bold mb-3">Quick Links</h6>
                 <ul class="list-unstyled">
@@ -433,12 +444,14 @@
                     <li><a href="adminLogin" class="text-white text-decoration-none">Admin Login</a></li>
                 </ul>
             </div>
+
             <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
                 <h6 class="text-uppercase fw-bold mb-3">Contact</h6>
                 <p><i class="bi bi-geo-alt-fill me-2"></i> Bengaluru, Karnataka</p>
                 <p><i class="bi bi-envelope-fill me-2"></i> support@kamadhenu.com</p>
                 <p><i class="bi bi-telephone-fill me-2"></i> +91 98765 43210</p>
             </div>
+
             <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
                 <h6 class="text-uppercase fw-bold mb-3">Follow Us</h6>
                 <a href="#" class="text-white fs-4 me-3"><i class="bi bi-facebook"></i></a>
@@ -447,6 +460,7 @@
                 <a href="#" class="text-white fs-4"><i class="bi bi-linkedin"></i></a>
             </div>
         </div>
+
         <div class="text-center pt-3 border-top border-secondary">
             <p class="mb-0">&copy; 2025 Kamadhenu Milk Products. All Rights Reserved.</p>
         </div>
@@ -455,17 +469,23 @@
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
+    // delete: fade out and request delete endpoint
     function deleteProduct(productId, button) {
         if (confirm('Are you sure you want to delete this product?')) {
             const card = button.closest('.col');
-            card.style.transition = 'opacity 0.3s';
-            card.style.opacity = '0';
-            setTimeout(() => card.remove(), 300);
-            fetch('deleteProduct?productId=' + productId, { method: 'GET' });
+            if (card) {
+                card.style.transition = 'opacity 0.3s';
+                card.style.opacity = '0';
+                setTimeout(() => card.remove(), 300);
+            }
+            // send delete request (non-blocking)
+            fetch('deleteProduct?productId=' + encodeURIComponent(productId), { method: 'GET' }).catch(() => {});
         }
     }
 
+    // edit: populate modal and show
     function editProduct(id, name, type, price) {
         document.getElementById('addProductModalLabel').textContent = 'Edit Product';
         document.getElementById('productId').value = id;
@@ -477,11 +497,142 @@
         new bootstrap.Modal(document.getElementById('addProductModal')).show();
     }
 
-    document.getElementById('addProductModal').addEventListener('hidden.bs.modal', function () {
-        document.getElementById('productForm').reset();
-        document.getElementById('productId').value = '';
-        document.getElementById('addProductModalLabel').textContent = 'Add New Product';
-        document.getElementById('productForm').action = 'save';
+    // reset modal when hidden
+    (function () {
+        const addModalEl = document.getElementById('addProductModal');
+        if (!addModalEl) return;
+        addModalEl.addEventListener('hidden.bs.modal', function () {
+            const form = document.getElementById('productForm');
+            if (form) form.reset();
+            const pid = document.getElementById('productId');
+            if (pid) pid.value = '';
+            const label = document.getElementById('addProductModalLabel');
+            if (label) label.textContent = 'Add New Product';
+            if (form) form.action = 'save';
+            // clear validation messages
+            const pErr = document.getElementById('productNameError');
+            if (pErr) pErr.innerText = '';
+            const priceErr = document.getElementById('priceError');
+            if (priceErr) priceErr.innerText = '';
+        });
+    })();
+
+    // DOM ready: duplicate-name check and form validation
+    document.addEventListener('DOMContentLoaded', function() {
+        // elements
+        const productForm = document.getElementById('productForm');
+        const productName = document.getElementById('productName');
+        const productNameError = document.getElementById('productNameError');
+        const priceInput = document.getElementById('productPrice');
+        const priceError = document.getElementById('priceError');
+
+        // keep original name while editing to avoid false-positive duplicate
+        let originalName = '';
+
+        // set originalName when modal shown for edit (capture current value)
+        const addModalEl = document.getElementById('addProductModal');
+        if (addModalEl) {
+            addModalEl.addEventListener('show.bs.modal', function (event) {
+                // when modal opens, capture current name as original
+                originalName = (productName && productName.value) ? productName.value.trim() : '';
+            });
+        }
+
+        // live input handler to clear messages and run uniqueness check
+        if (productName) {
+            productName.addEventListener('input', function () {
+                if (productNameError) productNameError.innerText = '';
+                const name = productName.value.trim();
+                // minimal checks: length
+                if (!name || name.length < 3) return;
+                // if unchanged from original while editing, skip remote check
+                if (originalName && name.toLowerCase() === originalName.toLowerCase()) return;
+
+                // remote uniqueness check (non-blocking)
+                fetch('productDashboard/checkProductName?productName=' + encodeURIComponent(name))
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        if (!productNameError) return;
+                        productNameError.innerText = (data === true || data === 'true') ? 'Product name already exists.' : '';
+                    })
+                    .catch(function () {
+                        // ignore errors silently
+                    });
+            });
+        }
+
+        // clear price error on input
+        if (priceInput) {
+            priceInput.addEventListener('input', function () {
+                if (priceError) priceError.innerText = '';
+            });
+        }
+
+        // form submit validation: block if duplicate or invalid price
+        if (productForm) {
+            productForm.addEventListener('submit', function (e) {
+                let valid = true;
+                const pn = productName ? productName.value.trim() : '';
+                if (!pn || pn.length < 3) valid = false;
+                if (productNameError && productNameError.innerText !== '') valid = false;
+
+                const pv = priceInput ? priceInput.value.trim() : '';
+                const parsed = pv === '' ? NaN : parseFloat(pv);
+                if (isNaN(parsed) || parsed <= 0) {
+                    if (priceError) priceError.innerText = 'Enter a valid price greater than 0.';
+                    valid = false;
+                } else {
+                    if (priceError) priceError.innerText = '';
+                }
+
+                if (!valid) e.preventDefault();
+            });
+        }
+
+        // Optional: delegated handler placeholders preserved (no changes)
+        document.body.addEventListener('click', function(e) {
+            const target = e.target.closest('.editProductBtn, .deleteProductItem');
+            if (!target) return;
+            e.preventDefault();
+
+            // --- Edit action (if used elsewhere) ---
+            if (target.classList.contains('editProductBtn')) {
+                const id = target.dataset.id || target.getAttribute('data-id') || '';
+                const name = target.dataset.name || target.getAttribute('data-name') || '';
+                let priceVal = target.dataset.price || target.getAttribute('data-price') || '';
+                const type = target.dataset.type || target.getAttribute('data-type') || '';
+
+                if (typeof priceVal === 'string') {
+                    priceVal = priceVal.replace(/[^0-9.\-]/g, '').trim();
+                }
+
+                // fill edit fields if they exist
+                const editIdEl = document.getElementById('productId');
+                if (editIdEl) editIdEl.value = id;
+                const editNameEl = document.getElementById('productName');
+                if (editNameEl) editNameEl.value = name;
+                const editPriceEl = document.getElementById('productPrice');
+                if (editPriceEl) editPriceEl.value = priceVal;
+                if (type === 'SELL' && document.getElementById('sellOption')) document.getElementById('sellOption').checked = true;
+                if (type === 'BUY' && document.getElementById('buyOption')) document.getElementById('buyOption').checked = true;
+
+                // show modal defensively
+                const editModalEl = document.getElementById('addProductModal');
+                try { if (window.bootstrap && editModalEl) new bootstrap.Modal(editModalEl).show(); } catch (err) { /* ignore */ }
+                return;
+            }
+
+            // --- Delete action (if used elsewhere) ---
+            if (target.classList.contains('deleteProductItem')) {
+                const url = target.dataset.deleteUrl || target.getAttribute('data-delete-url') || '#';
+                const delModalEl = document.getElementById('deleteConfirmModal');
+                try { if (window.bootstrap && delModalEl) new bootstrap.Modal(delModalEl).show(); } catch (err) { /* ignore */ }
+                const confirmBtn = document.getElementById('confirmDeleteBtn');
+                if (confirmBtn) confirmBtn.setAttribute('href', url);
+                return;
+            }
+        });
+
     });
 </script>
 </body>

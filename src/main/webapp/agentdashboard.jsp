@@ -1,20 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page isELIgnored="false" %>
 <html lang="en" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Agent Dashboard - Kamadhenu Milk Products</title>
-
-    <!-- Bootstrap CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
-
-    <!-- External CSS -->
     <link href="CSS/styles.css" rel="stylesheet"/>
-
-
     <style>
         :root {
             --k-yellow-50: #FFF9DB;
@@ -26,15 +21,12 @@
             --k-brown-800: #3F3200;
             --k-brown-700: #5B4A00;
         }
-
-        /* Global layout wrapper */
         body {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             background: #faf9f4;
         }
-
         .main-wrapper {
             flex: 1 0 auto;
             display: grid;
@@ -44,8 +36,6 @@
                 "nav nav"
                 "sidebar main";
         }
-
-        /* Navbar (same as Admin) */
         .custom-navbar {
             grid-area: nav;
             position: sticky;
@@ -54,8 +44,6 @@
             background: #ffffff;
             border-bottom: 1px solid #eee5bf;
         }
-
-        /* Sidebar (same as Admin) */
         .sidebar {
             grid-area: sidebar;
             background: var(--k-yellow-50);
@@ -67,7 +55,6 @@
             padding-bottom: 1rem;
             overflow-y: auto;
         }
-
         .sidebar h5 { color: var(--k-brown-700); }
         .sidebar .nav-link {
             color: var(--k-brown-700);
@@ -87,8 +74,6 @@
             color: var(--k-brown-900);
             box-shadow: inset 2px 0 0 #C9A227;
         }
-
-        /* Metric/Agent cards base styles */
         .metric-card, .agent-card {
             background: #fff;
             border: 1px solid #f2e6b3;
@@ -107,12 +92,7 @@
             background: var(--k-yellow-100);
             color: var(--k-brown-700);
         }
-        .agent-id-badge {
-            display:inline-block; background:#FFF3CD; color:#856404;
-            font-weight:600; border-radius:12px; padding:4px 10px; font-size:.85rem; margin-bottom:10px;
-        }
-
-        /* Responsive fixes */
+        .agent-id-badge { display:inline-block; background:#FFF3CD; color:#856404; font-weight:600; border-radius:12px; padding:4px 10px; font-size:.85rem; margin-bottom:10px; }
         @media (max-width: 991.98px) {
             .main-wrapper {
                 grid-template-columns: 1fr;
@@ -122,14 +102,10 @@
             }
             .sidebar { display: none; }
         }
-
-        /* Offcanvas sidebar (mobile) */
         .offcanvas-yellow {
             background: var(--k-yellow-50);
             border-right: 1px solid var(--k-yellow-400);
         }
-
-        /* Footer pinned to bottom */
         footer {
             flex-shrink: 0;
             background: #1f1f1f;
@@ -144,8 +120,6 @@
     </style>
 </head>
 <body>
-
-<!-- Offcanvas Sidebar (Mobile) — same links as Admin -->
 <div class="offcanvas offcanvas-start offcanvas-yellow" tabindex="-1" id="mobileSidebar">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title fw-bold">Dashboard</h5>
@@ -161,9 +135,7 @@
         </nav>
     </div>
 </div>
-
 <div class="main-wrapper">
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg custom-navbar">
         <div class="container">
             <a class="navbar-brand fw-bold" href="#">
@@ -175,7 +147,6 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
                 <i class="bi bi-list"></i>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav ms-auto">
                     <div class="nav-item me-3">
@@ -215,7 +186,6 @@
                                     Admin Dashboard
                                 </a>
                             </li>
-
                             <li>
                                 <a class="dropdown-item text-danger d-flex align-items-center gap-2" href="logout">
                                     <i class="bi bi-box-arrow-right"></i> Logout
@@ -228,8 +198,6 @@
         </div>
     </nav>
 
-
-    <!-- Sidebar (Desktop) — same links as Admin -->
     <aside class="sidebar d-none d-lg-flex flex-column">
         <h5 class="fw-bold ps-3">Dashboard</h5>
         <nav class="nav flex-column mt-2">
@@ -241,12 +209,9 @@
         </nav>
     </aside>
 
-    <!-- Main Content (Agent Dashboard features preserved) -->
     <main class="p-4">
-
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-3">
-
-                <h3 class="mb-1">Agent Management</h3>
+            <h3 class="mb-1">Agent Management</h3>
             <%
             Integer visitCount = (Integer) session.getAttribute("visitCount");
             if (visitCount == null) {
@@ -256,21 +221,16 @@
             }
             session.setAttribute("visitCount", visitCount);
             %>
-
             <div class="d-flex justify-content-end my-2">
-    <span class="badge text-dark fs-6 px-3 py-2 shadow-sm" style="background-color: #f8d7da;">
-        <i class="bi bi-eye-fill me-1"></i> Page visits: <strong><%= visitCount %></strong>
-    </span>
+                <span class="badge text-dark fs-6 px-3 py-2 shadow-sm" style="background-color: #f8d7da;">
+                    <i class="bi bi-eye-fill me-1"></i> Page visits: <strong><%= visitCount %></strong>
+                </span>
             </div>
-
-
-
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAgentModal">
                 <i class="bi bi-plus-lg me-1"></i> Add Agent
             </button>
         </div>
 
-        <!-- Success/Error Messages -->
         <c:if test="${not empty param.addSuccess}">
             <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
                 <i class="bi bi-check-circle-fill me-2"></i> Agent added successfully!
@@ -296,9 +256,6 @@
             </div>
         </c:if>
 
-
-
-        <!-- Search Card -->
         <div class="card mb-3">
             <div class="card-body p-3">
                 <form class="row g-2" role="search" onsubmit="return false;">
@@ -318,13 +275,12 @@
             </div>
         </div>
 
-        <!-- Agent Cards -->
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3" id="agentContainer">
             <c:choose>
                 <c:when test="${not empty agentsList}">
                     <c:forEach items="${agentsList}" var="agent">
                         <div class="col agent-item">
-                            <div class="agent-card h-100">
+                            <div class="agent-card h-100 d-flex flex-column">
                                 <div class="agent-id-badge">ID: ${agent.agentId}</div>
                                 <h5 class="mb-1">${agent.firstName} ${agent.lastName}</h5>
                                 <p class="email mb-1"><strong>Email:</strong> ${agent.email}</p>
@@ -341,16 +297,16 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#editAgentModal"
                                             data-id="${agent.agentId}"
-                                            data-firstname="${agent.firstName}"
-                                            data-lastname="${agent.lastName}"
-                                            data-email="${agent.email}"
-                                            data-phone="${agent.phoneNumber}"
-                                            data-address="${agent.address}"
-                                            data-type="${agent.typesOfMilk}">
+                                            data-firstname="${fn:escapeXml(agent.firstName)}"
+                                            data-lastname="${fn:escapeXml(agent.lastName)}"
+                                            data-email="${fn:escapeXml(agent.email)}"
+                                            data-phone="${fn:escapeXml(agent.phoneNumber)}"
+                                            data-address="${fn:escapeXml(agent.address)}"
+                                            data-type="${fn:escapeXml(agent.typesOfMilk)}">
                                         <i class="bi bi-pencil"></i> Edit
                                     </button>
                                     <button class="btn btn-sm btn-outline-danger w-50"
-                                            onclick="confirmDelete(${agent.agentId}, '${agent.firstName} ${agent.lastName}')">
+                                            onclick="confirmDelete(${agent.agentId}, '${fn:escapeXml(agent.firstName)} ${fn:escapeXml(agent.lastName)}')">
                                         <i class="bi bi-trash"></i> Delete
                                     </button>
                                 </div>
@@ -366,7 +322,6 @@
             </c:choose>
         </div>
 
-        <!-- Pagination -->
         <div class="d-flex justify-content-center my-3">
             <nav aria-label="Agent pagination">
                 <ul class="pagination mb-0" id="paginationContainer"></ul>
@@ -375,7 +330,6 @@
     </main>
 </div>
 
-<!-- Add Agent Modal -->
 <div class="modal fade" id="addAgentModal" tabindex="-1" aria-labelledby="addAgentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -411,11 +365,9 @@
                         <label for="milkTypes" class="form-label">Type of Milk</label>
                         <select class="form-select" id="milkTypes" name="typesOfMilk" required>
                             <option value="" disabled selected>Select Milk Type</option>
-                            <option value="COW">Cow Milk</option>
-                            <option value="BUFFALO">Buffalo Milk</option>
-                            <option value="GOAT">Goat Milk</option>
-                            <option value="A2">A2 Milk</option>
-                            <option value="ORGANIC">Organic Milk</option>
+                            <c:forEach var="milk" items="${milkTypes}">
+                                <option value="${fn:escapeXml(milk)}">${fn:escapeXml(milk)}</option>
+                            </c:forEach>
                         </select>
                     </div>
                 </div>
@@ -428,7 +380,6 @@
     </div>
 </div>
 
-<!-- Edit Agent Modal -->
 <div class="modal fade" id="editAgentModal" tabindex="-1" aria-labelledby="editAgentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -464,11 +415,9 @@
                         <label for="editTypesOfMilk" class="form-label">Type of Milk</label>
                         <select class="form-select" id="editTypesOfMilk" name="typesOfMilk" required>
                             <option value="" disabled>Select Milk Type</option>
-                            <option value="COW">Cow Milk</option>
-                            <option value="BUFFALO">Buffalo Milk</option>
-                            <option value="GOAT">Goat Milk</option>
-                            <option value="A2">A2 Milk</option>
-                            <option value="ORGANIC">Organic Milk</option>
+                            <c:forEach var="milk" items="${milkTypes}">
+                                <option value="${fn:escapeXml(milk)}">${fn:escapeXml(milk)}</option>
+                            </c:forEach>
                         </select>
                     </div>
                 </div>
@@ -481,7 +430,6 @@
     </div>
 </div>
 
-<!-- Footer (same as Admin) -->
 <footer class="mt-auto">
     <div class="container text-center text-md-start">
         <div class="row">
@@ -520,7 +468,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Fill Edit Agent modal on open
     document.addEventListener('DOMContentLoaded', function () {
       var editAgentModal = document.getElementById('editAgentModal');
       if (editAgentModal) {
@@ -532,18 +479,26 @@
           document.getElementById('editEmail').value = button.getAttribute('data-email') || '';
           document.getElementById('editPhoneNumber').value = button.getAttribute('data-phone') || '';
           document.getElementById('editAddress').value = button.getAttribute('data-address') || '';
-          document.getElementById('editTypesOfMilk').value = button.getAttribute('data-type') || '';
+          var typeVal = button.getAttribute('data-type') || '';
+          var editSelect = document.getElementById('editTypesOfMilk');
+          if (editSelect) {
+            editSelect.value = typeVal;
+            if (!Array.from(editSelect.options).some(o => o.value === typeVal)) {
+              var opt = document.createElement('option');
+              opt.value = typeVal;
+              opt.textContent = typeVal;
+              opt.selected = true;
+              editSelect.appendChild(opt);
+            }
+          }
         });
       }
-
-      // Delete confirm
       window.confirmDelete = function (id, agentName) {
         if (confirm('Are you sure you want to delete ' + agentName + '?')) {
           window.location.href = 'deleteAgent?id=' + encodeURIComponent(id);
         }
       }
 
-      // Filtering + Pagination (client-side)
       const rowsPerPage = 6;
       let currentPage = 1;
       const agentContainer = document.getElementById('agentContainer');
@@ -558,18 +513,14 @@
         currentPage = Math.min(Math.max(1, page), pageCount);
         const start = (currentPage - 1) * rowsPerPage;
         const end = start + rowsPerPage;
-
         agentItems.forEach(item => item.classList.add('d-none'));
         filteredItems.slice(start, end).forEach(item => item.classList.remove('d-none'));
-
         renderPagination();
       }
-
       function renderPagination(){
         const pageCount = Math.ceil(filteredItems.length / rowsPerPage);
         paginationContainer.innerHTML = '';
         if (pageCount <= 1){ return; }
-
         function addItem(label, disabled, onClick, ariaLabel){
           const li = document.createElement('li');
           li.className = 'page-item' + (disabled ? ' disabled' : '');
@@ -582,9 +533,7 @@
           li.appendChild(a);
           paginationContainer.appendChild(li);
         }
-
         addItem('&laquo;', currentPage === 1, () => displayPage(currentPage-1), 'Previous');
-
         let startPage = Math.max(1, currentPage - 2);
         let endPage = Math.min(pageCount, startPage + 4);
         if (startPage > 1){
@@ -596,7 +545,6 @@
             paginationContainer.appendChild(dots);
           }
         }
-
         for (let i=startPage;i<=endPage;i++){
           const li = document.createElement('li');
           li.className = 'page-item' + (i === currentPage ? ' active' : '');
@@ -608,7 +556,6 @@
           li.appendChild(a);
           paginationContainer.appendChild(li);
         }
-
         if (endPage < pageCount){
           if (endPage < pageCount - 1){
             const dots = document.createElement('li');
@@ -618,35 +565,26 @@
           }
           addItem(String(pageCount), false, () => displayPage(pageCount));
         }
-
         addItem('&raquo;', currentPage === pageCount, () => displayPage(currentPage+1), 'Next');
       }
-
       function normalize(text){ return (text || '').toString().trim().toLowerCase(); }
-
       function filterAgents(){
         const filter = normalize(searchInput.value);
         filteredItems = agentItems.filter(function(agent){
           if (!filter) return true;
-
           const id = normalize((agent.querySelector('.agent-id-badge')?.textContent || '').replace(/^\s*ID:\s*/i,''));
           const name = normalize(agent.querySelector('h5')?.textContent);
           const email = normalize((agent.querySelector('p.email')?.textContent || '').replace(/^\s*Email:\s*/i,''));
           const phone = normalize((agent.querySelector('p.phone')?.textContent || '').replace(/^\s*Phone:\s*/i,''));
           const address = normalize((agent.querySelector('p.address')?.textContent || '').replace(/^\s*Address:\s*/i,''));
           const types = normalize((agent.querySelector('p.typesOfMilk')?.textContent || '').replace(/^\s*Type of Milk:\s*/i,''));
-
           return id.includes(filter) || name.includes(filter) || email.includes(filter) ||
                  phone.includes(filter) || address.includes(filter) || types.includes(filter);
         });
-
         displayPage(1);
       }
-
       searchBtn?.addEventListener('click', filterAgents);
       searchInput?.addEventListener('keyup', filterAgents);
-
-      // Initial paint
       displayPage(1);
     });
 </script>
