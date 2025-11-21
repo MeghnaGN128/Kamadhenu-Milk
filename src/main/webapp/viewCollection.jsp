@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page isELIgnored="false" %>
 
-<html lang="en">
+<html lang="en" xmlns:c="">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="CSS/styles.css"/>
+
     <style>
         :root {
             --k-yellow-50: #FFF9DB;
@@ -37,8 +38,8 @@
             grid-template-columns: 260px 1fr;
             grid-template-rows: auto 1fr;
             grid-template-areas:
-                "nav nav"
-                "sidebar main";
+                    "nav nav"
+                    "sidebar main";
         }
 
         .custom-navbar {
@@ -132,23 +133,18 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg custom-navbar">
         <div class="container">
-
             <a class="navbar-brand fw-bold" href="#">
                 <span class="logo-badge">
                     <img src="images/logo.jpg" alt="Kamadhenu Logo" style="height:50px;"/>
                 </span>
                 Kamadhenu Milk
             </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav" aria-controls="navbarNav"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                <i class="bi bi-list"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav ms-auto">
-
                     <div class="nav-item me-3">
                         <a class="nav-link" href="index.jsp">
                             <i class="bi bi-house-door me-1"></i>Home
@@ -156,16 +152,15 @@
                     </div>
 
                     <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
-                           id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-                            <img src="images/adminprofile.jpg" class="rounded-circle me-1"
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="adminDropdown"
+                           role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="images/adminprofile.jpg"
+                                 class="rounded-circle me-1 border"
                                  style="height:32px;width:32px;object-fit:cover;">
-
                             <span>${sessionScope.adminDTO != null ? sessionScope.adminDTO.adminName : 'Admin'}</span>
                         </a>
 
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown" style="min-width:260px;">
                             <li class="dropdown-item text-center">
                                 <img src="images/adminprofile.jpg" class="rounded-circle mb-2 border"
                                      style="height:80px;width:80px;object-fit:cover;">
@@ -176,37 +171,29 @@
                                     ${sessionScope.adminDTO != null ? sessionScope.adminDTO.email : 'admin@kamadhenu.com'}
                                 </div>
                             </li>
-
                             <li><hr class="dropdown-divider"></li>
-
                             <li>
                                 <a class="dropdown-item text-danger d-flex align-items-center gap-2" href="adminprofile">
                                     <i class="bi bi-person-circle"></i> Profile
                                 </a>
                             </li>
-
                             <li>
-                                <a class="dropdown-item text-danger d-flex align-items-center gap-2" href="adminloginsuccessfully">
+                                <a class="dropdown-item text-danger d-flex align-items-center gap-2" href="dashboard">
                                     <i class="bi bi-arrow-return-left"></i> Admin Dashboard
                                 </a>
                             </li>
-
                             <li>
                                 <a class="dropdown-item text-danger d-flex align-items-center gap-2" href="logout">
                                     <i class="bi bi-box-arrow-right"></i> Logout
                                 </a>
                             </li>
-
                         </ul>
-
                     </div>
 
                 </div>
             </div>
         </div>
     </nav>
-
-
 
     <!-- SIDEBAR -->
     <aside class="sidebar d-none d-lg-flex flex-column">
@@ -222,10 +209,7 @@
             <a class="nav-link" href="paymentDetails"><i class="bi bi-credit-card"></i> Payment Details</a>
             <a class="nav-link text-danger mt-auto" href="logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
         </nav>
-
     </aside>
-
-
 
     <!-- MAIN CONTENT -->
     <main class="p-4">
@@ -248,6 +232,7 @@
                 </form>
             </div>
 
+
             <div class="card-body">
 
                 <div class="table-responsive">
@@ -268,15 +253,17 @@
                         <c:forEach var="c" items="${collectionList}">
                             <tr>
                                 <td>${c.agentName}</td>
-                                <td>${c.phone}</td>
-                                <td>${c.milkType}</td>
-                                <td>${c.pricePerLiter}</td>
+                                <td>${c.phoneNumber}</td>
+                                <td>${c.typeOfMilk}</td>
+                                <td>${c.price}</td>
                                 <td>${c.quantity}</td>
                                 <td>${c.totalAmount}</td>
+
                                 <td>
-                                    <a class="btn btn-sm btn-primary" href="viewSingleCollection?id=${c.id}">
+                                    <button class="btn btn-sm btn-primary view-btn"
+                                            data-id="${c.milkCollectionId}">
                                         View
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -331,7 +318,75 @@
     </div>
 </footer>
 
+<!-- MODAL (POPUP) -->
+<div class="modal fade" id="collectionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
 
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">Collection Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <h6 class="text-primary">Agent Information</h6>
+                <div class="row mb-3">
+                    <div class="col-md-6"><strong>Name:</strong> <span id="agentName"></span></div>
+                    <div class="col-md-6"><strong>Email:</strong> <span id="email"></span></div>
+                    <div class="col-md-6"><strong>Phone:</strong> <span id="phoneNumber"></span></div>
+                    <div class="col-md-6"><strong>Address:</strong> <span id="address"></span></div>
+                </div>
+
+                <h6 class="text-primary mt-3">Milk Collection Details</h6>
+                <div class="row">
+                    <div class="col-md-6"><strong>Milk Type:</strong> <span id="typesOfMilk"></span></div>
+                    <div class="col-md-6"><strong>Price per L:</strong> ₹<span id="price"></span></div>
+                    <div class="col-md-6"><strong>Quantity:</strong> <span id="quantity"></span> L</div>
+                    <div class="col-md-6"><strong>Total Amount:</strong> ₹<span id="totalAmount"></span></div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- AJAX SCRIPT -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        document.querySelectorAll(".view-btn").forEach(btn => {
+            btn.addEventListener("click", function () {
+
+                let id = this.getAttribute("data-id");
+
+                fetch("viewSingleCollection?id=" + id)
+                    .then(response => response.json())
+                    .then(dto => {
+
+                        document.getElementById("agentName").innerText = dto.agentName;
+                        document.getElementById("email").innerText = dto.email;
+                        document.getElementById("phoneNumber").innerText = dto.phoneNumber;
+                        document.getElementById("address").innerText = dto.address;
+
+                        document.getElementById("typesOfMilk").innerText = dto.typesOfMilk;
+                        document.getElementById("price").innerText = dto.price;
+                        document.getElementById("quantity").innerText = dto.quantity;
+                        document.getElementById("totalAmount").innerText = dto.totalAmount;
+
+                        var modal = new bootstrap.Modal(document.getElementById("collectionModal"));
+                        modal.show();
+                    });
+            });
+        });
+
+    });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
